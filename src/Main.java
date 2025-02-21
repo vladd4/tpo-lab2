@@ -1,42 +1,45 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class Main {
     public static void main(String[] args) {
-        List<StudentGroup> groups = new ArrayList<>();
+        System.out.println("Частина 1: Неконтрольоване виведення");
+        System.out.println("=====================================");
 
-        for (int i = 1; i <= 3; i++) {
-            List<String> studentNames = new ArrayList<>();
-            for (int j = 1; j <= 5; j++) {
-                studentNames.add(String.format("Student %d-%d", i, j));
+        for (int i = 0; i < 90; i++) {
+            Thread t1 = new Thread(new Symbol('|', 1));
+            Thread t2 = new Thread(new Symbol('\\', 1));
+            Thread t3 = new Thread(new Symbol('/', 1));
+
+            t1.start();
+            t2.start();
+            t3.start();
+
+            try {
+                t1.join();
+                t2.join();
+                t3.join();
+                System.out.println();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-            groups.add(new StudentGroup("Group " + i, studentNames));
         }
 
-        int weeksToGrade = 4;
+        System.out.println("\nЧастина 2: Контрольоване виведення патерну");
+        System.out.println("================================================");
 
-        Thread lecturerThread = new Thread(new Lecturer(groups, weeksToGrade));
-        Thread assistant1Thread = new Thread(new Assistant(1, groups, weeksToGrade));
-        Thread assistant2Thread = new Thread(new Assistant(2, groups, weeksToGrade));
-        Thread assistant3Thread = new Thread(new Assistant(3, groups, weeksToGrade));
+        int iterations = 90;
+        Thread pt1 = new Thread(new Pattern('|', 0, 3, iterations));
+        Thread pt2 = new Thread(new Pattern('\\', 1, 3, iterations));
+        Thread pt3 = new Thread(new Pattern('/', 2, 3, iterations));
 
-        lecturerThread.start();
-        assistant1Thread.start();
-        assistant2Thread.start();
-        assistant3Thread.start();
+        pt1.start();
+        pt2.start();
+        pt3.start();
 
         try {
-            lecturerThread.join();
-            assistant1Thread.join();
-            assistant2Thread.join();
-            assistant3Thread.join();
+            pt1.join();
+            pt2.join();
+            pt3.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
-
-        System.out.println("\n=== Final Report ===");
-        for (StudentGroup group : groups) {
-            group.printGroupReport();
         }
     }
 }
