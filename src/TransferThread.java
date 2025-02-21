@@ -1,20 +1,22 @@
 class TransferThread extends Thread {
-    private Bank bank;
-    private int fromAccount;
-    private int maxAmount;
-    private static final int REPS = 1000;
-    public TransferThread(Bank b, int from, int max){
+    private final Object bank;
+    private final int fromAccount;
+    private final int maxAmount;
+    private static final int REPS = 1;
+
+    public TransferThread(Object b, int from, int max) {
         bank = b;
         fromAccount = from;
         maxAmount = max;
     }
+
     @Override
-    public void run(){
+    public void run() {
         while (true) {
             for (int i = 0; i < REPS; i++) {
-                int toAccount = (int) (bank.size() * Math.random());
+                int toAccount = (int) (((BankSync3)bank).size() * Math.random());
                 int amount = (int) (maxAmount * Math.random()/REPS);
-                bank.transfer(fromAccount, toAccount, amount);
+                ((BankSync3)bank).transfer(fromAccount, toAccount, amount);
             }
         }
     }
