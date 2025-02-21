@@ -15,10 +15,8 @@ public class Producer implements Runnable {
                 int number = random.nextInt(1000);
                 System.out.println("Producing: " + number);
                 drop.put(number);
-                // Даємо час споживачу обробити число
                 Thread.sleep(50);
             }
-            // Сигнал завершення
             drop.put(-1);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();

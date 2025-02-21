@@ -12,12 +12,10 @@ public class Consumer implements Runnable {
             while (number != null && number != -1) {
                 System.out.println("Consuming: " + number);
                 count++;
-                // Невелика затримка перед наступним читанням
                 Thread.sleep(50);
                 number = drop.take();
             }
 
-            // Виводимо статистику
             System.out.println("\nProcessing complete!");
             System.out.println("Total numbers processed: " + count);
 
