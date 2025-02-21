@@ -1,28 +1,42 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
-        int arraySize = 100;
+        List<StudentGroup> groups = new ArrayList<>();
 
-        System.out.println("Starting Producer-Consumer test with array size: " + arraySize);
-        System.out.println("----------------------------------------");
+        for (int i = 1; i <= 3; i++) {
+            List<String> studentNames = new ArrayList<>();
+            for (int j = 1; j <= 5; j++) {
+                studentNames.add(String.format("Student %d-%d", i, j));
+            }
+            groups.add(new StudentGroup("Group " + i, studentNames));
+        }
 
-        Drop drop = new Drop();
-        Thread producerThread = new Thread(new Producer(drop, arraySize));
-        Thread consumerThread = new Thread(new Consumer(drop));
+        int weeksToGrade = 4;
 
-        long startTime = System.currentTimeMillis();
+        Thread lecturerThread = new Thread(new Lecturer(groups, weeksToGrade));
+        Thread assistant1Thread = new Thread(new Assistant(1, groups, weeksToGrade));
+        Thread assistant2Thread = new Thread(new Assistant(2, groups, weeksToGrade));
+        Thread assistant3Thread = new Thread(new Assistant(3, groups, weeksToGrade));
 
-        producerThread.start();
-        consumerThread.start();
+        lecturerThread.start();
+        assistant1Thread.start();
+        assistant2Thread.start();
+        assistant3Thread.start();
 
         try {
-            producerThread.join();
-            consumerThread.join();
+            lecturerThread.join();
+            assistant1Thread.join();
+            assistant2Thread.join();
+            assistant3Thread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        long endTime = System.currentTimeMillis();
-        System.out.println("----------------------------------------");
-        System.out.println("Total execution time: " + (endTime - startTime) + " ms");
+        System.out.println("\n=== Final Report ===");
+        for (StudentGroup group : groups) {
+            group.printGroupReport();
+        }
     }
 }
