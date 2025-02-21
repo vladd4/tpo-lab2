@@ -15,7 +15,6 @@ class BankSync3 {
     }
 
     public void transfer(int from, int to, int amount) {
-        // Запобігання взаємного блокування шляхом завжди блокування рахунків у однаковому порядку
         int first = Math.min(from, to);
         int second = Math.max(from, to);
 
