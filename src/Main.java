@@ -3,10 +3,10 @@ public class Main {
     public static final int INITIAL_BALANCE = 10000;
 
     public static void main(String[] args) {
-        Bank b = new Bank(NACCOUNTS, INITIAL_BALANCE);
-//        BankSync1 b = new BankSync1(NACCOUNTS, INITIAL_BALANCE);
-//        BankSync2 b = new BankSync2(NACCOUNTS, INITIAL_BALANCE);
-//        BankSync3 b = new BankSync3(NACCOUNTS, INITIAL_BALANCE);
+        // Bank b = new Bank(NACCOUNTS, INITIAL_BALANCE);
+  //      BankSync1 b = new BankSync1(NACCOUNTS, INITIAL_BALANCE);
+   //     BankSync2 b = new BankSync2(NACCOUNTS, INITIAL_BALANCE);
+        BankSync3 b = new BankSync3(NACCOUNTS, INITIAL_BALANCE);
 
         for (int i = 0; i < NACCOUNTS; i++) {
             TransferThread t = new TransferThread(b, i, INITIAL_BALANCE);
